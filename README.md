@@ -11,40 +11,41 @@ The backend system provides the necessary API endpoints, database management, se
 
 ## Project Structure
 
-    ```bash
-    backend-system/
-    │
-    ├── config/
-    │   ├── database.js           Sequelize instance configuration
-    │
-    ├── models/
-    │   ├── User.js              # User model definition
-    │   ├── Family.js            # Family model definition
-    │   ├── Apostle.js           # Apostle model definition
-    │   ├── Blog.js              # Blog model definition
-    │   ├── Travel.js            # Travel model definition
-    │   └── index.js             # Initialize models and associations
-    │
-    ├── routes/
-    │   ├── userRoutes.js        # Routes for User-related operations
-    │   ├── familyRoutes.js      # Routes for Family-related operations
-    │   ├── blogRoutes.js        # Routes for Blog-related operations
-    │   └── travelRoutes.js      # Routes for Travel-related operations
-    │
-    ├── controllers/
-    │   ├── userController.js    # Business logic for User routes
-    │   ├── familyController.js  # Business logic for Family routes
-    │   ├── blogController.js    # Business logic for Blog routes
-    │   └── travelController.js  # Business logic for Travel routes
-    │
-    ├── middleware/
-    │   └── authMiddleware.js    # Middleware for authenticating JWT tokens
-    │
-    ├── .env                     # Environment variables (e.g., database credentials, JWT secret)
-    ├── package.json             # Project dependencies and scripts
-    └── server.js                # Main server file
-
+```bash
+backend-system/
+│
+├── config/
+│   ├── database.js           Sequelize instance configuration
+│
+├── models/
+│   ├── User.js              # User model definition
+│   ├── Family.js            # Family model definition
+│   ├── Apostle.js           # Apostle model definition
+│   ├── Blog.js              # Blog model definition
+│   ├── Travel.js            # Travel model definition
+│   └── index.js             # Initialize models and associations
+│
+├── routes/
+│   ├── userRoutes.js        # Routes for User-related operations
+│   ├── familyRoutes.js      # Routes for Family-related operations
+│   ├── blogRoutes.js        # Routes for Blog-related operations
+│   └── travelRoutes.js      # Routes for Travel-related operations
+│
+├── controllers/
+│   ├── userController.js    # Business logic for User routes
+│   ├── familyController.js  # Business logic for Family routes
+│   ├── blogController.js    # Business logic for Blog routes
+│   └── travelController.js  # Business logic for Travel routes
+│
+├── middleware/
+│   └── authMiddleware.js    # Middleware for authenticating JWT tokens
+│
+├── .env                     # Environment variables (e.g., database credentials, JWT secret)
+├── package.json             # Project dependencies and scripts
+└── server.js                # Main server file
 ```
+
+
 
 # Setup and Installation
 To set up the backend system locally, follow the steps below:
@@ -92,19 +93,23 @@ The following are the main API endpoints available in the backend system:
 - **POST** `/api/users/register`: Register a new user.
 - **POST** `/api/users/login`: Login an existing user and receive a JWT token.
 - **GET** `/api/users/:id`: Get user details by ID (protected route).
+- **Delete** `/api/user/:id` Delete user by  ID>
 
 ## Family Routes
 - **POST** `/api/families`: Create a new family.
 - **GET** `/api/families/:id`: Get family details by ID.
+- **Delete** `/api/families/:id` Delete family by  ID
 
 ## Blog Routes
 - **POST** `/api/blogs`: Create a new blog post (requires authentication).
 - **GET** `/api/blogs`: Get a list of blog posts.
 - **GET** `/api/blogs/:id`: Get blog post by ID.
+- **Delete** `/api/blogs/:id` Delete blog by post ID
 
 ## Travel Routes
 - **POST** `/api/travels`: Create a new travel record (requires authentication).
 - **GET** `/api/travels`: Get a list of travel records.
+- **Delete** `/api/travels/:id` Delete travels by post ID
 
 # Authentication
 The backend uses JWT (JSON Web Tokens) for secure authentication.
