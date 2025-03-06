@@ -11,42 +11,41 @@ The backend system provides the necessary API endpoints, database management, se
 
 ## Project Structure
 
-```bash
-backend-system/
-│
-├── config/
-│   ├── database.js          # Sequelize instance configuration
-│
-├── models/
-│   ├── User.js              # User model definition
-│   ├── Family.js            # Family model definition
-│   ├── Apostle.js           # Apostle model definition
-│   ├── Blog.js              # Blog model definition
-│   ├── Travel.js            # Travel model definition
-│   └── index.js             # Initialize models and associations
-│
-├── routes/
-│   ├── userRoutes.js        # Routes for User-related operations
-│   ├── familyRoutes.js      # Routes for Family-related operations
-│   ├── blogRoutes.js        # Routes for Blog-related operations
-│   └── travelRoutes.js      # Routes for Travel-related operations
-│
-├── controllers/
-│   ├── userController.js    # Business logic for User routes
-│   ├── familyController.js  # Business logic for Family routes
-│   ├── blogController.js    # Business logic for Blog routes
-│   └── travelController.js  # Business logic for Travel routes
-│
-├── middleware/
-│   └── authMiddleware.js    # Middleware for authenticating JWT tokens
-│
-├── .env                     # Environment variables (e.g., database credentials, JWT secret)
-├── package.json             # Project dependencies and scripts
-└── server.js                # Main server file
+    ```bash
+    backend-system/
+    │
+    ├── config/
+    │   ├── database.js           Sequelize instance configuration
+    │
+    ├── models/
+    │   ├── User.js              # User model definition
+    │   ├── Family.js            # Family model definition
+    │   ├── Apostle.js           # Apostle model definition
+    │   ├── Blog.js              # Blog model definition
+    │   ├── Travel.js            # Travel model definition
+    │   └── index.js             # Initialize models and associations
+    │
+    ├── routes/
+    │   ├── userRoutes.js        # Routes for User-related operations
+    │   ├── familyRoutes.js      # Routes for Family-related operations
+    │   ├── blogRoutes.js        # Routes for Blog-related operations
+    │   └── travelRoutes.js      # Routes for Travel-related operations
+    │
+    ├── controllers/
+    │   ├── userController.js    # Business logic for User routes
+    │   ├── familyController.js  # Business logic for Family routes
+    │   ├── blogController.js    # Business logic for Blog routes
+    │   └── travelController.js  # Business logic for Travel routes
+    │
+    ├── middleware/
+    │   └── authMiddleware.js    # Middleware for authenticating JWT tokens
+    │
+    ├── .env                     # Environment variables (e.g., database credentials, JWT secret)
+    ├── package.json             # Project dependencies and scripts
+    └── server.js                # Main server file
 
-
+```
 # Setup and Installation
-
 To set up the backend system locally, follow the steps below:
 
 ## Clone the Repository
@@ -54,14 +53,14 @@ To set up the backend system locally, follow the steps below:
 ```bash
 git clone <repository_url>
 cd backend-system
-
+```
 # Install Dependencies
 Make sure you have Node.js installed, then run:
 
 ```bash
 npm install
 
-
+```
 # Set Up Environment Variables
 Create a `.env` file in the root of the project with the following contents:
 
@@ -70,7 +69,7 @@ DB_HOST=localhost
 DB_NAME=database_name
 DB_USER=yourmysqluser
 DB_PASS=yoursqlpassword
-
+```
 # Run the Application
 
 ## 4. Run the Application
@@ -78,13 +77,13 @@ Start the backend server by running the following command:
 
 ```bash
 npm start
-
+```
 # 5. Sync Database Models
 To sync the models with the database, run the following command:
 
 ```bash
 node models/index.js
-
+```
 # API Endpoints
 The following are the main API endpoints available in the backend system:
 
@@ -122,6 +121,6 @@ To register a new user, send a **POST** request to `/api/users/register` with th
   "batch": "2025"
 }
 
-
+```
 
 
