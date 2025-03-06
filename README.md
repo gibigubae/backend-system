@@ -45,6 +45,7 @@ The backend system provides the necessary API endpoints, database management, se
     └── server.js                # Main server file
 
 ```
+
 # Setup and Installation
 To set up the backend system locally, follow the steps below:
 
