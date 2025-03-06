@@ -43,6 +43,8 @@ backend-system/
 ├── .env                     # Environment variables (e.g., database credentials, JWT secret)
 ├── package.json             # Project dependencies and scripts
 └── server.js                # Main server file
+
+
 # Setup and Installation
 
 To set up the backend system locally, follow the steps below:
