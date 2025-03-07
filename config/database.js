@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config({ path: '../.env' }); 
+require('dotenv').config(); 
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -11,7 +11,6 @@ const sequelize = new Sequelize(
     logging: false,
   }
 );
-
 
 async function testConnection() {
   try {
