@@ -1,34 +1,34 @@
-const sequelize = require("../config/database.js")
-const { DataTypes } = require("sequelize")
-const User = require("./User")
+// familyModel.js
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+
 const Family = sequelize.define("Family", {
-    id:{
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    name:{
-        type: DataTypes.STRING,
+    admin_id: {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
-    mother_id:{
+    hwarya_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references:{
-            model: 'Users',
-            key: 'id',
-        },
+        allowNull: false
     },
-    father_id:{
+    mother_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references:{
-            model: 'Users',
-            key: 'id',
-        },
+        allowNull: false
     },
+    father_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    family_name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+}, { timestamps: true });
 
-},
-{timestamps: true}
-)
 module.exports = Family;
+                                                                                                                
