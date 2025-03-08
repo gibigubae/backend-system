@@ -4,13 +4,14 @@ require('dotenv').config();
 
 const userRoutes = require('./routes/userRoutes');
 const familyRoutes = require('./routes/familyRoutes');
-
+const travelRoutes = require('./routes/travelRoutes')
 // Middleware to parse JSON
 app.use(express.json());
 
 // Mount user routes
 app.use('/api/users', userRoutes);
 app.use('/api/families', familyRoutes);
+app.use('/api/travels', travelRoutes);
 // Start server
 const PORT = process.env.PORT || 3000;
 
