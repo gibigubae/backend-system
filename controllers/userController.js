@@ -1,12 +1,20 @@
 const { User } = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+require('dotenv').config({path:"../.env"});
 
 // Register a new user
 const registerUser = async (req, res) => {
-  const { fullName, studentId, gender, email, password, batch } = req.body;
-  if (!fullName || !studentId || !gender || !email || !password || !batch) {
+  const { fullName, studentId, email, password,isAdmin} = req.body;
+  const idPicture = req.file ? req.file.filename : null
+  if(!idPicture){
+    return res.status(422).json({
+      success:false,
+      message:"Image is required"
+    })
+  }
+  
+  if (!fullName || !studentId  || !email || !password ) {
     return res.status(422).json({
       success: false,
       message: "Please provide all required fields",
@@ -48,15 +56,15 @@ const registerUser = async (req, res) => {
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
+    const adminStatus  = isAdmin == "true" || isAdmin == true ? true : false;
     // Create new user with only essential fields
     const user = await User.create({
       fullName,
       studentId,
-      gender,
       email,
       password: hashedPassword,
-      batch,
+      isAdmin: adminStatus,
+      idPicture
     });
 
     // Return success response without token
@@ -76,7 +84,9 @@ const registerUser = async (req, res) => {
 
 // Login a user
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  console.log("Received body:", req.body)
+  const email = req.body.email || req.body["email"];
+  const password = req.body.password || req.body["password"];
   if (!email || !password) {
     return res.status(422).json({ message: 'Please provide email and password' });
   }
@@ -140,7 +150,7 @@ const getUserById = async (req, res) => {
     }
 
     // Restrict access to the user themselves or an admin
-    const isSelf = req.user.id === user.id;
+    const isSelf = req.user.id === user.id || user.isAdmin;
 
     if (!isSelf) {
       return res.status(403).json({
@@ -173,8 +183,8 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
     // Optionally, restrict deletion to the user themselves or an admin
-    if (req.user.id !== user.id) {
-      return res.status(403).json({ message: 'You can only delete your own account' });
+    if (req.user.isAdmin === false && req.user.id !== user.id) {
+      return res.status(403).json({ message: 'Only admin can delete an account and the user it' });
     }
 
     await user.destroy();

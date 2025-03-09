@@ -5,10 +5,10 @@ const { createFamily, getFamilyById, deleteFamily } = require("../controllers/fa
 const authMiddleware = require('../middleware/authMiddleware');
 
 
-router.post("/families", authMiddleware, createFamily);
+router.post("/", authMiddleware, createFamily);
 
-router.get("/families/:id", authMiddleware, getFamilyById);
+router.get("/:id", authMiddleware, getFamilyById);
 
-router.delete("/families/:id", authMiddleware, deleteFamily);
+router.delete("/:id", authMiddleware, deleteFamily);
 
 module.exports = router;

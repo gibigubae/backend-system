@@ -8,14 +8,6 @@ const Family = sequelize.define("Family", {
         primaryKey: true,
         autoIncrement: true
     },
-    admin_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    hwarya_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     mother_id: {
         type: DataTypes.INTEGER,
         allowNull: false

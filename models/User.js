@@ -15,11 +15,10 @@ const User = sequelize.define("User", {
     studentId:{
         type : DataTypes.STRING,
         allowNull : false,
-        unique: true
     },
     gender:{
         type: DataTypes.STRING,
-        allowNull:false
+        allowNull:true,
     },
     buildingBlock:{
         type: DataTypes.STRING,
@@ -32,7 +31,6 @@ const User = sequelize.define("User", {
     email:{
         type:DataTypes.STRING,
         allowNull:false,
-        unique:true,
     },
     password:{
         type:DataTypes.STRING,
@@ -42,13 +40,13 @@ const User = sequelize.define("User", {
         type:DataTypes.STRING,
         allowNull:true,
     },
-    studentPicture:{
+    idPicture:{
         type:DataTypes.STRING,
         allowNull:true,
     },
     batch:{
         type:DataTypes.STRING,
-        allowNull:false
+        allowNull:true,
     },
     degreeType:{
         type:DataTypes.STRING,
@@ -57,6 +55,15 @@ const User = sequelize.define("User", {
     isAdmin:{
         type:DataTypes.BOOLEAN,
         defaultValue:false
+    },
+    approve:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false
+    },
+    level:{
+        type:DataTypes.INTEGER,
+        defaultValue:1,
+        allowNull:true
     }
 },
 {

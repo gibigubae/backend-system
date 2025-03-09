@@ -2,12 +2,14 @@
 const Family = require("../models/Family"); 
 
 const createFamily = async (req, res) => {
+    //only admin can create family
+    if(!req.user.isAdmin){
+        return res.status(403).json({ message: "Only admin can create family" });
+    }
     try {
-        const { admin_id, hwarya_id, mother_id, father_id, family_name } = req.body;
+        const {mother_id, father_id, family_name } = req.body;
         
         const newFamily = await Family.create({
-            admin_id,
-            hwarya_id,
             mother_id,
             father_id,
             family_name
@@ -20,6 +22,7 @@ const createFamily = async (req, res) => {
 };
 
 const getFamilyById = async (req, res) => {
+
     try {
         const family = await Family.findByPk(req.params.id);
         
@@ -34,6 +37,9 @@ const getFamilyById = async (req, res) => {
 };
 
 const deleteFamily = async (req, res) => {
+    if(!req.user.isAdmin){
+        return res.status(403).json({ message: "Only admin can delete family" });
+    }
     try {
         const family = await Family.findByPk(req.params.id);
         
