@@ -54,7 +54,6 @@ const User = sequelize.define("User", {
     },
     isAdmin:{
         type:DataTypes.BOOLEAN,
-        defaultValue:false
     },
     approve:{
         type:DataTypes.BOOLEAN,

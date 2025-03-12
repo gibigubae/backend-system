@@ -3,12 +3,12 @@ const { User } = require("../models"); // Ensure correct import
 
 const createTravel = async (req, res) => {
   try {
-    const { name, description, price, date, createdBy } = req.body;
-
+    const { name, description, price, date } = req.body;
+    const travelPicture = req.file ? req.file.filename : null;
     console.log("Received data:", req.body);  // Log the incoming data
 
     // Check if all required fields are provided
-    if (!name || !description || !price || !date || !createdBy) {
+    if (!name || !description || !price || !date  || !travelPicture) {
       return res.status(422).json({
         message: "Please provide all required fields.",
         success: false,
@@ -17,7 +17,7 @@ const createTravel = async (req, res) => {
     }
 
     // Check if the user is an admin
-    const user = await User.findByPk(createdBy);
+    const admin = req.user.isAdmin;
 
     // Check if the travel package already exists
     const existingTravel = await Travel.findOne({ where: { name } });
@@ -30,7 +30,17 @@ const createTravel = async (req, res) => {
     }
 
     // Create the new travel package
-    const newTravel = await Travel.create({ name, description, price, date, createdBy });
+    const newTravel = await Travel.create({ name, description, price, date , image});
+    if (!admin){
+      res.status(401).json({
+        message: "Unauthorized to create travel package.",
+        success: false,
+        error: true,
+      });
+    }
+
+    
+   
 
     console.log("Travel package created:", newTravel);  // Log the created travel package
 
@@ -39,6 +49,7 @@ const createTravel = async (req, res) => {
       travel: newTravel,
       success: true,
       error: false,
+
     });
   } catch (error) {
     console.error("Error creating travel package:", error);  // Log error if any

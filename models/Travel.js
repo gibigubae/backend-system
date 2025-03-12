@@ -18,6 +18,10 @@ const Travel = sequelize.define('Travel', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    travelPicture:{
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     price:{
         type: DataTypes.INTEGER,
         allowNull: false
@@ -26,14 +30,6 @@ const Travel = sequelize.define('Travel', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    createdBy:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'Users',
-            key: 'id'
-        }
-    }
 
 },{timestamps: true});
 

@@ -19,6 +19,10 @@ const Family = sequelize.define("Family", {
     family_name: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    family_batch:{
+        type:DataTypes.DATE,
+        allowNull: false
     }
 }, { timestamps: true });
 
