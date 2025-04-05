@@ -1,48 +1,43 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../config/database.js"); // Ensure correct Sequelize instance
-require('dotenv').config(); // If needed, ensure that your .env variables are loaded here
+'use strict';
 
-// Import models
-const Apostle = require("./Apostle.js");
-const User = require("./User.js");
-const Family = require("./Family.js");
-const Blog = require("./Blog.js");
-const Travel = require("./Travel.js");
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const process = require('process');
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
+const db = {};
 
-// Now define associations after all models are imported
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
 
-// Define relationships between models
-
-// Apostle - User (One-to-many)
-User.belongsTo(Apostle, { foreignKey: 'apostleId' });
-Apostle.hasMany(User, { foreignKey: 'apostleId' });
-
-// User - Travel (One-to-many)
-User.hasMany(Travel, { foreignKey: 'userId' });
-
-// User - Family (One-to-many)
-User.belongsTo(Family, { foreignKey: 'familyId' });
-Family.hasMany(User, { foreignKey: 'familyId' });
-
-
-
-// Mother and Father associations (Many-to-one, self-referencing within Family)
-Family.belongsTo(User, { as: 'mother', foreignKey: 'mother_id' });
-Family.belongsTo(User, { as: 'father', foreignKey: 'father_id' });
-
-// Sync the database (now that associations are set)
-sequelize.sync({ alter: true })
-  .then(() => {
-    console.log("Databases and models are synced");
+fs
+  .readdirSync(__dirname)
+  .filter(file => {
+    return (
+      file.indexOf('.') !== 0 &&
+      file !== basename &&
+      file.slice(-3) === '.js' &&
+      file.indexOf('.test.js') === -1
+    );
   })
-  .catch((err) => {
-    console.log("Error syncing the database:", err);
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    db[model.name] = model;
   });
 
-module.exports = {
-  User,
-  Apostle,
-  Family,
-  Blog,
-  Travel,
-};
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;

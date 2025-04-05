@@ -1,8 +1,7 @@
-const {DataTypes} = require('sequelize');
-const db = require('../config/database');
-
-const User = db.define("User", {
-    id: {
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('Users', {
+id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -67,13 +66,10 @@ const User = db.define("User", {
         },
         allowNull: true
     }
-},
- {timestamps: true,}
-);
-
-User.associate = (models) => {
-    User.belongsTo(models.Field, {
-        foreignKey: 'classField',
-        as: 'field'
     });
-}
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('Users');
+  }
+};
