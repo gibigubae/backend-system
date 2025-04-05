@@ -24,8 +24,10 @@
   "homepage": "https://github.com/gibigubae/backend-system#readme",
   "description": "This web is a backend system for managing the data of the web.",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.18.2",
     "mysql2": "^3.14.0",
+    "pg": "^8.14.1",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {

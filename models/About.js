@@ -27,3 +27,4 @@ const About = db.define('About', {
         allowNull: false,// Default to current date if not provided
     },
 })
+module.exports = About;

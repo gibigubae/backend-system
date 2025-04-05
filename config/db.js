@@ -1,9 +1,7 @@
-const {Sequelize} = require('sequelize');
+const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('connection_link',{
-    dialect: 'postgres',
-    logging: false,
+const config = require('../config/config.json').development;
 
-});
+const sequelize = new Sequelize(config);
 
 module.exports = sequelize;

@@ -26,3 +26,5 @@ const Notification = db.define('Notification', {
 },{
     timestamps:true,
 })
+
+module.exports = Notification;

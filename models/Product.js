@@ -64,3 +64,5 @@ const Product = db.define('Product', {
     timestamps: true,
 
 })
+
+module.exports = Product;

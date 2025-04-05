@@ -40,3 +40,4 @@ const Field = db.define('Field', {
 {timeStamps:true,}
 );
 
+module.exports = Field;

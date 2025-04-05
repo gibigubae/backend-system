@@ -47,3 +47,5 @@ const Leader = db.define("Leader", {
    },
  {timestamps: true,}
 );
+
+module.exports = Leader;

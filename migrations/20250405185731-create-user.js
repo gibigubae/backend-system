@@ -1,3 +1,4 @@
+const {DataTypes} = require('sequelize');
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Users', {
@@ -61,7 +62,7 @@ id: {
     classField: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Field', 
+            model: 'fields', // Assuming you have a 'fields' table created in a previous migration
             key: 'id' 
         },
         allowNull: true

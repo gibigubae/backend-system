@@ -1,6 +1,7 @@
 const {DataTypes} = require('sequelize');
-const db = require('../config/database');
+const db = require('../config/db');
 
+const Field = require('./Field');
 const User = db.define("User", {
     id: {
         type: DataTypes.INTEGER,
@@ -77,3 +78,5 @@ User.associate = (models) => {
         as: 'field'
     });
 }
+
+module.exports = User;
