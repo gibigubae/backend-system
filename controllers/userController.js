@@ -142,4 +142,32 @@ const loginUser = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
-module.exports = { registerUser ,loginUser};
+
+const getUser = async(req,res)=>{
+    id = req.params.id;
+    if (!id) {
+        return res.status(400).json({ message: 'Please provide an ID' });
+    }
+    try{
+        const user = await User.findOne({ where: { id } });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.status(200).json({
+            message: 'User found',
+            user: {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phone: user.phone,
+                studentId: user.studentId,
+                idPicture: user.idPicture,
+            },
+        });
+    }catch(err){
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+module.exports = { registerUser ,loginUser, getUser};
