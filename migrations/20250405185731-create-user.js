@@ -50,6 +50,11 @@ id: {
         type: DataTypes.STRING,
         allowNull: true
     },
+    isAdmin:{
+        type: DataTypes.BOOLEAN, 
+        allowNull: false,
+        defaultValue: false 
+    },
     idPicture: {
         type: DataTypes.STRING,
         allowNull: true

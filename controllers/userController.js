@@ -82,6 +82,7 @@ const registerUser = async (req, res) => {
                 phone: newUser.phone,
                 studentId: newUser.studentId,
                 idPicture: newUser.idPicture,
+                isAdmin: newUser.isAdmin, 
             },
             token
         });
@@ -134,6 +135,7 @@ const loginUser = async (req, res) => {
                 phone: user.phone,
                 studentId: user.studentId,
                 idPicture: user.idPicture,
+                isAdmin: user.isAdmin,
             },
             token
         });
@@ -163,6 +165,7 @@ const getUser = async(req,res)=>{
                 phone: user.phone,
                 studentId: user.studentId,
                 idPicture: user.idPicture,
+                isAdmin: user.isAdmin, 
             },
         });
     }catch(err){
@@ -170,4 +173,32 @@ const getUser = async(req,res)=>{
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
-module.exports = { registerUser ,loginUser, getUser};
+
+const deleteUser = async (req, res)=>{
+    const  actor_id = req.userId;
+    const actor = await User.findOne({ where: { id: actor_id } });
+    if(!actor){
+        return res.status(404).json({ message: 'You must be logged in' });
+    }
+    const id = req.params.id;
+    if (!id) {
+        return res.status(400).json({ message: 'Please provide an ID' });
+    }
+    try{
+        const user = await User.findOne({ where: { id } });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        if ((actor.isAdmin && !user.isAdmin )|| actor.id == user.id){
+            await user.destroy();
+            return res.status(200).json({ message: 'User deleted successfully' });
+        }
+        return res.status(403).json({ message: 'You are not authorized to delete this user' });
+
+
+    }catch(err){
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+module.exports = { registerUser ,loginUser, getUser, deleteUser};
