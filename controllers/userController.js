@@ -12,14 +12,17 @@ const registerUser = async (req, res) => {
         return res.status(400).json({ message: 'Please fill all fields' });
     }
     
-    const secret_key = process.env.JWT_SECRET;
+    const secret_key = process.env.JWT_SECRET_KEY;
     
     try {
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
-
+        const existingId = await User.findOne({ where: { studentId } });
+        if (existingId){
+            return res.status(400).json({ message: 'Student ID already exists' });
+        }
         let idPictureUrl = "";
 
         if (idPicture) {
@@ -88,4 +91,55 @@ const registerUser = async (req, res) => {
     }
 }
 
-module.exports = { registerUser };
+const loginUser = async (req, res) => {
+    const {email, firstName, password, studentId} = req.body;
+    if (!email || !password || !(firstName || studentId)) {
+        return res.status(400).json({ message: 'Please fill all fields' });
+    }
+    const secret_key = process.env.JWT_SECRET_KEY;
+    try{
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            return res.status(400).json({ message: 'User email not found' });
+        }
+
+        if (firstName){
+            const name = await User.findOne({ where: { firstName } });
+            if (!name) {
+                return res.status(400).json({ message: 'User name not found' });
+            }
+        }
+        if(studentId){
+            const id = await User.findOne({ where: { studentId } });
+            if (!id) {
+                return res.status(400).json({ message: 'User ID not found' });
+            }
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+        const token = jwt.sign(
+            { id: user.id, email: user.email },
+            secret_key,
+            { expiresIn: '48h' }
+        );
+        return res.status(200).json({
+            message: 'User logged in successfully',
+            user: {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phone: user.phone,
+                studentId: user.studentId,
+                idPicture: user.idPicture,
+            },
+            token
+        });
+    }catch(err){
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+module.exports = { registerUser ,loginUser};
