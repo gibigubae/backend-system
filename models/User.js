@@ -53,7 +53,7 @@ const User = db.define("User", {
     },
     idPicture: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false,
     },
     status: {
         type: DataTypes.INTEGER,
@@ -69,7 +69,7 @@ const User = db.define("User", {
         allowNull: true
     }
 },
- {timestamps: true,}
+{timestamps: true,}
 );
 
 User.associate = (models) => {
