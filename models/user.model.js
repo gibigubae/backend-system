@@ -1,8 +1,7 @@
-const {DataTypes} = require('sequelize');
-const db = require('../config/db');
+import  DataTypes  from 'sequelize';
+import  sequelize from '../config/db.js' ;
 
-const Field = require('./Field');
-const User = db.define("User", {
+const User = sequelize.define("User", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -56,10 +55,6 @@ const User = db.define("User", {
         type: DataTypes.STRING,
         allowNull: true
     },
-    idPicture: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     status: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -84,4 +79,4 @@ User.associate = (models) => {
     });
 }
 
-module.exports = {User};;
+export default User;
