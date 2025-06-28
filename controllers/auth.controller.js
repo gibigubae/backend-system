@@ -2,11 +2,14 @@ import User from  '../models/user.model.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { JWT_EXPIRES_IN, JWT_SECRET_KEY } from '../config/env.js';
+import sequelize from '../config/db.js';
+import {uploadToCloudinary} from '../utils/cloudinary.util.js'
 
 export const signUp = async (req, res, next) => {
+    const t = await sequelize.transaction();
     const { firstName, middleName, lastName, email, password, phone, studentId } = req.body;
-    // const idPicture = req.files ? req.files.idPicture : null;
-
+    const image = req.files?.image?.[0]?.buffer || null;
+    const idImage = req.files?.idImage?.[0]?.buffer || null;
     try {
         if (!firstName || !middleName || !lastName || !email || !password || !phone || !studentId ) {
             let error = new Error('Registeration field missed');
@@ -25,35 +28,14 @@ export const signUp = async (req, res, next) => {
             error.statusCode = 490
             throw error;
         }
-        // let idPictureUrl = "";
-
-        // if (idPicture) {
-        //     // Create a promise to handle the Cloudinary upload properly
-        //     idPictureUrl = await new Promise((resolve, reject) => {
-        //         const stream = require('stream');
-        //         const bufferStream = new stream.PassThrough();
-        //         bufferStream.end(idPicture.data); 
-        //         const uploadStream = cloudinary.uploader.upload_stream(
-        //             {
-        //                 folder: 'idPictures',
-        //                 use_filename: true,
-        //                 unique_filename: false,
-        //                 overwrite: true,
-        //                 resource_type: 'auto', 
-        //             },
-        //             (error, result) => {
-        //                 if (error) {
-        //                     console.error('Error uploading image:', error);
-        //                     return reject('Error uploading image');
-        //                 }
-
-        //                 resolve(result.secure_url);
-        //             }
-        //         );
-                
-        //         bufferStream.pipe(uploadStream); 
-        //     });
-        // }
+        let imageUrl;
+        if (image) {
+            imageUrl = await uploadToCloudinary(image,'personalImages')
+        }
+        let idPictureUrl;
+        if (idImage) {
+            idPictureUrl = await uploadToCloudinary(idImage,'idImages')
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         
@@ -64,11 +46,13 @@ export const signUp = async (req, res, next) => {
             email,
             password: hashedPassword,
             phone,
+            image:imageUrl || null,
+            idPicture:idPictureUrl || null,
             studentId
-        });
-
-        const token = jwt.sign({ id: user.id},JWT_SECRET_KEY,{ expiresIn: '48h' });
-
+        },{transaction:t});
+        await t.commit();
+        const token = jwt.sign({ userId: user.id},JWT_SECRET_KEY,{ expiresIn: JWT_EXPIRES_IN });
+        
         return res.status(201).json({
             message: 'User created successfully',
             user,
@@ -77,6 +61,7 @@ export const signUp = async (req, res, next) => {
 
     } catch (err) {
         console.error(err);
+        await t.rollback();
         next(err)
     }
 }
@@ -118,6 +103,4 @@ export const signIn = async (req, res, next) => {
 };
 
 
-// export const signOut = async (req, res, next) =>{
 
-// }

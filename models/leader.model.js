@@ -1,7 +1,7 @@
-const {DataTypes} = require('sequelize');
-const db = require('../config/database');
+import  DataTypes  from 'sequelize';
+import  sequelize from '../config/db.js' ;
 
-const Leader = db.define("Leader", {
+const Leader = sequelize.define("Leader", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -48,4 +48,4 @@ const Leader = db.define("Leader", {
  {timestamps: true,}
 );
 
-module.exports = Leader;
+export default Leader

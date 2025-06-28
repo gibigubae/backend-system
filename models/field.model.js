@@ -1,7 +1,7 @@
-const {DataTypes} = require('sequelize');
-const db = require('../config/db');
+import  DataTypes  from 'sequelize';
+import  sequelize from '../config/db.js' ;
 
-const Field = db.define('Field', {
+const Field = sequelize.define('Field', {
     id: {
         type:DataTypes.INTEGER,
         primaryKey: true,
@@ -40,4 +40,4 @@ const Field = db.define('Field', {
 {timeStamps:true,}
 );
 
-module.exports = Field;
+export default Field;

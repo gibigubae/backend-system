@@ -1,7 +1,7 @@
-const {DataTypes} = require('sequelize');
-const  {db} = require('../config/db');
+import  DataTypes  from 'sequelize';
+import  sequelize from '../config/db.js' ;
 
-const Quote = db.define('Quote', {
+const Quote = sequelize.define('Quote', {
     id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -24,4 +24,4 @@ const Quote = db.define('Quote', {
     },
 })
 
-module.exports = Quote
+export default Quote;

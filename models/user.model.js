@@ -38,6 +38,14 @@ const User = sequelize.define("User", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    image:{
+        type:DataTypes.STRING,
+        allowNull:true
+    },
+    idPicture:{
+        type:DataTypes.STRING,
+        allowNull:true
+    },
     studentId: {
         type: DataTypes.STRING,
         allowNull: false
@@ -63,7 +71,7 @@ const User = sequelize.define("User", {
     classField: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Field', 
+            model: 'Fields', 
             key: 'id' 
         },
         allowNull: true

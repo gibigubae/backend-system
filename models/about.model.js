@@ -1,6 +1,6 @@
-const {DataTypes}  = require('sequelize');
-const db = require('../config/db');
-const About = db.define('About', {
+import  DataTypes  from 'sequelize';
+import  sequelize from '../config/db.js' ;
+const About = sequelize.define('About', {
     id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -24,7 +24,7 @@ const About = db.define('About', {
     },
     date:{
         type: DataTypes.DATE,
-        allowNull: false,// Default to current date if not provided
+        allowNull: false,
     },
 })
-module.exports = About;
+export default About

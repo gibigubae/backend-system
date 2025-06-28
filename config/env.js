@@ -12,6 +12,8 @@ export const {
     JWT_SECRET_KEY,
     NODE_ENV,
     JWT_EXPIRES_IN,
-    PORT
-
+    PORT,
+    CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET
 } = process.env;

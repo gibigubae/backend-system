@@ -1,7 +1,7 @@
-const {DataTypes} = require('sequelize');
-const db = require('../config/db');
+import  DataTypes  from 'sequelize';
+import  sequelize from '../config/db.js' ;
 
-const Acknowledgment = db.define('Acknowledgment', {
+const Acknowledgment = sequelize.define('Acknowledgment', {
     id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -29,3 +29,4 @@ const Acknowledgment = db.define('Acknowledgment', {
         }
     }
 })
+export default Acknowledgment;

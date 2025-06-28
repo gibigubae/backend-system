@@ -5,6 +5,10 @@ import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
 import databaseConnection from './database/sequlize.js'
 import { PORT } from './config/env.js';
+import bookRouter from './routes/book.routes.js';
+import bookHoldRouter from './routes/bookHold.routes.js';
+import './jobs/cleanupExpiredHolds.js';
+
 
 const port = PORT || 5500;
 
@@ -16,8 +20,10 @@ app.use(cookieParser())
 
 
 
-app.use('/api/v1/auth',authRouter)
-app.use('/api/v1/users',userRouter)
+app.use('/api/v1/auth',authRouter);
+app.use('/api/v1/users',userRouter);
+app.use('/api/v1/books',bookRouter);
+app.use('/api/v1/bookHold',bookHoldRouter)
 app.use(errorMiddleware)
 
 app.listen(port,()=>{
