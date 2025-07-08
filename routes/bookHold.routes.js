@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { createHold, getHold } from '../controllers/bookHold.controller.js';
+import { createHold, deleteHold, getAllHold,getHoldByBook } from '../controllers/bookHold.controller.js';
 import authorize from '../middlewares/auth.middleware.js';
 
 const bookHoldRouter = Router();
 
-bookHoldRouter.get('/',authorize,);
-bookHoldRouter.get('/:bookId',authorize,getHold);
-bookHoldRouter.delete('/:id',authorize,);
+bookHoldRouter.get('/',authorize,getAllHold);
+bookHoldRouter.get('/:bookId',authorize,getHoldByBook);
+bookHoldRouter.delete('/:id',authorize,deleteHold);
 bookHoldRouter.post('/',authorize,createHold)
 
 

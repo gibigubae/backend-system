@@ -42,7 +42,9 @@ export const createHold = async ( req, res, next )=>{
 
         return res.status(201).json({
             message: 'Book Hold sucessfull',
-            bookhold
+            bookhold,
+            user,
+            book
         })
 
     }catch(err){
@@ -51,23 +53,97 @@ export const createHold = async ( req, res, next )=>{
     }
 }
 
-export const getHold = async ( req, res, next )=>{
-    try{
-        const bookId = req.params.bookId;;
-        const bookhold = await BookHold.findAll({where:{bookId}});
 
-        if (!bookhold || bookhold.length === 0) {
-            const error = new Error('Reserved Book not Found');
-            error.statusCode = 409;
-            throw error;
-        }
+export const getAllHold = async ( req, res, next )=>{
+    try{
+         const bookholds = await BookHold.findAll({
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: ['id', 'firstName', 'email'] 
+                },
+                {
+                    model: Book,
+                    as: 'book', 
+                    attributes: ['id', 'title', 'author']
+                }
+            ]
+        });
 
         return res.status(200).json({
             success:true,
-            bookhold
+            bookholds
         })
 
     }catch(err){
+        next(err)
+    }
+}
+
+export const getHoldByBook = async ( req, res, next )=>{
+    try{
+         const bookId = req.params.bookId;
+         const bookholds = await BookHold.findAll({
+            where:{bookId},
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: ['id', 'firstName', 'email'] 
+                },
+                {
+                    model: Book,
+                    as: 'book', 
+                    attributes: ['id', 'title', 'author']
+                }
+            ]
+        });
+
+        return res.status(200).json({
+            success:true,
+            bookholds
+        })
+
+    }catch(err){
+        next(err)
+    }
+}
+
+
+
+
+export const deleteHold = async ( req, res, next )=>{
+
+    const t = await sequelize.transaction();
+    try{
+        const id = req.params.id;
+        if (!id) {
+            let error = new Error('id book not found');
+            error.statusCode = 404
+            throw error;
+        }
+        if(!req.user.isAdmin){
+            let error = new Error('You are not authorized to delete the reservation');
+            error.statusCode = 401
+            throw error;
+        }
+        const hold = await BookHold.findByPk(id,{transaction:t});
+
+        if (!hold) {
+            let error = new Error('reservation not found');
+            error.statusCode = 404
+            throw error;
+        }
+
+      
+        await hold.destroy({transaction:t});
+        await t.commit();
+        return res.status(200).json({ message: 'reservation deleted successfully' });
+
+        
+    }catch(err){
+        await t.rollback();
         next(err)
     }
 }

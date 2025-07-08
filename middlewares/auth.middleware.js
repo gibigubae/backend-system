@@ -19,7 +19,7 @@ const authorize = async (req, res, next) => {
       const user = await User.findByPk(decoded.userId);
 
       if(!user){
-        const error = new Error("User not found");
+        const error = new Error("User not found different token may be used");
         error.statusCode = 404;
         throw error;
       }

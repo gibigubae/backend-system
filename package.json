@@ -37,7 +37,9 @@
     "node-cron": "^4.1.1",
     "nodecron": "^0.2.0",
     "pg": "^8.14.1",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

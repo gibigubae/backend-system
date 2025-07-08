@@ -1,5 +1,6 @@
 import  DataTypes  from 'sequelize';
 import  sequelize from '../config/db.js' ;
+import BookHold from './bookHold.model.js';
 
 const User = sequelize.define("User", {
     id: {
@@ -86,5 +87,12 @@ User.associate = (models) => {
         as: 'field'
     });
 }
+User.hasMany(BookHold, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE'
+});
+
+
+
 
 export default User;

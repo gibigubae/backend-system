@@ -26,6 +26,7 @@ export const getBook = async ( req, res, next )=>{
     }
 }
 
+
 export const createBook = async ( req, res, next )=>{
     const t = await sequelize.transaction()
     const image = req.file ? req.file.buffer : null;
@@ -35,12 +36,12 @@ export const createBook = async ( req, res, next )=>{
             error.statusCode = 401
             throw error;
         }
-        const { title,quantity, author, category, description, link, rent, sell } = req.body;
+        const { title,price,quantity, author, category, description, link, rent, sell } = req.body;
         let imageUrl = ''
         if (image) {
             imageUrl = await uploadToCloudinary(image,'bookImages')
         }
-        if(!title || !quantity|| !author || !category || !description){
+        if(!title || !price || !quantity|| !author || !category || !description){
             const error = new Error('missing fields in create book');
             error.statusCode = 404;
             throw error;
@@ -51,6 +52,8 @@ export const createBook = async ( req, res, next )=>{
             description,
             author,
             category,
+            quantity,
+            price,
             link: link || null,
             rent: rent || null,
             sell: sell || null,
@@ -135,7 +138,7 @@ export const updateBook = async ( req, res, next )=>{
     try{
         const id = req.params.id;
 
-        const { title, quantity,author, category, description, link, rent, sell } = req.body;
+        const { title, price, quantity,author, category, description, link, rent, sell } = req.body;
         if (!id) {
             let error = new Error('id not found');
             error.statusCode = 404
@@ -160,6 +163,7 @@ export const updateBook = async ( req, res, next )=>{
             link: link || book.link,
             rent: rent || book.rent,
             sell: sell || book.sell,
+            price: price || book.price,
             image: imageUrl|| book.image,
             quantity: quantity || book.quantity
             

@@ -12,6 +12,11 @@ import Product from '../models/product.model.js';
 import Quote from '../models/quote.model.js';
 import BookHold from '../models/bookHold.model.js';
 
+BookHold.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+BookHold.belongsTo(Book, { foreignKey: 'bookId', as: 'book' });
+User.hasMany(BookHold, { foreignKey: 'userId', as: 'holds' });
+Book.hasMany(BookHold, { foreignKey: 'bookId', as: 'holds' });
+
 const databaseConnection = async () => {
   try {
     await sequelize.authenticate();

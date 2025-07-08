@@ -1,6 +1,7 @@
 import sequelize from '../config/db.js';
 import {DataTypes} from 'sequelize';
 
+
 const BookHold = sequelize.define("BookHold", {
     id: {
         type: DataTypes.INTEGER,
@@ -28,5 +29,7 @@ const BookHold = sequelize.define("BookHold", {
     timestamps:true
 }
 );
+
+
 
 export default BookHold;

@@ -29,11 +29,15 @@ const Book = sequelize.define("Book", {
     },
     rent:{
         type: DataTypes.BOOLEAN,
-        defaultValue: true
+        defaultValue: false,
     },
     sell:{
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
+    },
+    price:{
+        type: DataTypes.INTEGER,
+        allowNull:false
     },
     image:{
         type: DataTypes.STRING,
